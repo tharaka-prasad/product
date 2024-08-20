@@ -14,7 +14,6 @@ class Product extends Model
         'description',
         'price',
         'category_id',
-        'image', // add image to fillable
     ];
     public function category()
 {

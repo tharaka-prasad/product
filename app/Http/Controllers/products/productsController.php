@@ -47,6 +47,7 @@ class productsController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric',
             'category_id' => 'required|exists:categories,id',
+            'status' => 'nullable|string',
         ]);
 
 
@@ -61,16 +62,16 @@ class productsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-{
-    // Retrieve the product by its ID, along with the related category
-    $product = Product::all();
+    public function show($id)
+    {
+        // Fetch the product with its category
+        $product = Product::all();
 
-    // Pass the product to the Show component
-    return Inertia::render('Products/View/Index', [
-        'product' => $product,
-    ]);
-}
+        // Return the Inertia view with the product data
+        return Inertia::render('products/Show/Index', [
+            'product' => $product,
+        ]);
+    }
     /**
      * Show the form for editing the specified resource.
      */
@@ -99,6 +100,7 @@ class productsController extends Controller
                 'description' => 'nullable|string',
                 'price' => 'required|numeric',
                 'category_id' => 'required|exists:categories,id',
+                'status' => 'nullable|string',
             ]));
 
             return redirect()->route('products.index')->with('success', 'Product updated successfully.');

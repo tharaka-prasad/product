@@ -25,3 +25,6 @@ th {
 td {
     background-color: #fff; /* White background for table rows */
 }
+.button-space {
+    margin: 0 10px; /* Adjust the spacing as needed */
+}

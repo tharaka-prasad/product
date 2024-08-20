@@ -14,11 +14,12 @@ interface ProductProps extends PageProps {
         description: string;
         price: number;
         category: Category;
-        status: 'draft',
+        status: 'draft';
     };
 }
 
-export default function ShowProduct({ auth, product }: ProductProps) {
+export default function Show({ auth, product }: ProductProps) {
+    console.log('Product Data:', product);
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -33,7 +34,7 @@ export default function ShowProduct({ auth, product }: ProductProps) {
                             <h3 className="text-lg font-medium mb-4">Product: {product.name}</h3>
                             <p><strong>Description:</strong> {product.description}</p>
                             <p><strong>Price:</strong> ${product.price}</p>
-                            <p><strong>Category:</strong> {product.category.name}</p>
+                            {/* <p><strong>Category:</strong> {product.category.name}</p> */}
 
                             <div className="mt-6">
                                 <Link
