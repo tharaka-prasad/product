@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.dashboard-background {
+    @apply bg-cover bg-center bg-no-repeat min-h-screen;
+    background-image: url('/Image/dashbg.jpg');
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px; /* Padding around the content in table cells */
+    text-align: left; /* Aligns the text to the left */
+    border-bottom: 1px solid #ddd; /* Adds a bottom border to each cell */
+}
+
+th {
+    background-color: #f9f9f9; /* Light gray background for headers */
+    font-weight: bold; /* Bold text for headers */
+}
+
+td {
+    background-color: #fff; /* White background for table rows */
+}
