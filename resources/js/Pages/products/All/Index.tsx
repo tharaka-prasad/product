@@ -66,13 +66,16 @@ export default function Products({ auth, products }: ProductsProps) {
                                             <td className="py-2 px-4 border-b">{product.category.name}</td>
                                             <td className="py-2 px-4 border-b">{product.status}</td>
                                             <td className="py-2 px-4 border-b">
-                                            <Link href={`/products/${product.id}`} className="text-green-600 hover:underline btn btn-view button-space">View</Link>
-                                                <Link
+                                            <Link href={route('products.show', product.id)} className="text-green-600 hover:underline button-space">
+                                                    View
+                                                </Link>
+                                                 <Link
                                                     href={route('products.edit', product.id)}
                                                     className="text-blue-600 hover:underline"
                                                 >
                                                     Edit
                                                 </Link>
+                                                
                                                 <Link
                                                     href={route('products.destroy', product.id)}
                                                     className="text-red-600 hover:underline ml-4"

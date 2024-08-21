@@ -13,8 +13,10 @@ export default function Dashboard({ auth }: PageProps) {
             <div className="dashboard-background min-h-screen">
                 <div className="py-12">
                     <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                        <div className="bg-yellow-400 overflow-hidden shadow-sm sm:rounded-lg">
-                            <div className="p-10 text-xl text-center  text-blue-900 font-bold">අපෙමුත් බඩු ලාබෙට ගන්න </div>
+                        <div className="overflow-hidden shadow-sm sm:rounded-lg">
+                            <div className="p-10 text-3xl text-center  text-black-500 font-bold"> 😍 ............පුංචි අපේ සෙල්ලම් බඩු කඩේ.........😍  </div>
+                            <div className="p-10 text-3xl text-center text-black-500 font-bold"> 😍 ............Little our toy shop.................😍 </div>
+                            <div className="p-10 text-3xl text-center  text-black-500 font-bold"> 😍 .............எங்கள் சிறிய பொம்மை கடை... 😍  </div>
                         </div>
                     </div>
                 </div>

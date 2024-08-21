@@ -1,25 +1,11 @@
+import React from 'react';
+import { usePage, Link } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, Link } from '@inertiajs/react';
-import { PageProps } from '@/types';
+import { Head } from '@inertiajs/react';
 
-interface Category {
-    id: number;
-    name: string;
-}
+export default function Show() {
+    const { auth, product }: any = usePage().props;
 
-interface ProductProps extends PageProps {
-    product: {
-        id: number;
-        name: string;
-        description: string;
-        price: number;
-        category: Category;
-        status: 'draft';
-    };
-}
-
-export default function Show({ auth, product }: ProductProps) {
-    console.log('Product Data:', product);
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -31,19 +17,31 @@ export default function Show({ auth, product }: ProductProps) {
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900">
-                            <h3 className="text-lg font-medium mb-4">Product: {product.name}</h3>
-                            <p><strong>Description:</strong> {product.description}</p>
-                            <p><strong>Price:</strong> ${product.price}</p>
-                            {/* <p><strong>Category:</strong> {product.category.name}</p> */}
+                            <h3 className="text-lg font-medium">Product Name: {product.name}</h3>
+                            <p className="mt-4">Description: {product.description}</p>
+                            <p className="mt-4">Price: {product.price}</p>
 
-                            <div className="mt-6">
-                                <Link
-                                    href={route('products.index')}
-                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                >
-                                    Back to Product List
-                                </Link>
-                            </div>
+                            {/* Handle case where category might not be loaded */}
+                            {product.category ? (
+                                <p className="mt-4">Category: {product.category.name}</p>
+                            ) :
+                            (
+                                <p className="mt-4">Category is available : {product.status}</p>
+                            )}
+                            {product.image && (
+                                <img
+                                    src={`/storage/${product.image}`}
+                                    alt={product.name}
+                                    className="mt-4 w-64 h-64 object-cover"
+                                />
+                            )}
+
+                            <Link
+                                href={route('products.index')}
+                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            >
+                                Back to Products
+                            </Link>
                         </div>
                     </div>
                 </div>

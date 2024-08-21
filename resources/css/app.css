@@ -4,7 +4,7 @@
 
 .dashboard-background {
     @apply bg-cover bg-center bg-no-repeat min-h-screen;
-    background-image: url('/Image/dashbg.jpg');
+    background-image: url('/Image/toys-shop-outside-colored-background-vector.jpg');
 }
 table {
     width: 100%;

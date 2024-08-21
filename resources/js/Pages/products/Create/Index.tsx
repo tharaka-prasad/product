@@ -1,6 +1,9 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, useForm } from '@inertiajs/react';
 import { PageProps } from '@/types';
+import Dropzone, { useDropzone } from 'react-dropzone';
+import { useState, useCallback } from 'react';
+import InputLabel from '@/Components/InputLabel';
 
 export default function CreateProduct({ auth , categories}: any) {
     const { data, setData, post, errors } = useForm({
@@ -8,8 +11,20 @@ export default function CreateProduct({ auth , categories}: any) {
         description: '',
         price: '',
         category_id: categories.name,
-        status: 'draft',  // Default value for status
+        status: 'draft',
+        image: null as File | null,  // Default value for status
     });
+
+    const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+
+    const onDrop = useCallback((acceptedFiles: File[]) => {
+        const formData = new FormData();
+        formData.append('file', acceptedFiles[0]);
+
+    }, []);
+
+    const { getRootProps, getInputProps } = useDropzone({ onDrop });
+
 
     function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
@@ -92,8 +107,62 @@ export default function CreateProduct({ auth , categories}: any) {
                                     </select>
                                     {errors.status && <span className="text-red-600">{errors.status}</span>}
                                 </div>
+                                {/* <div className="mb-4">
+                                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="image">
+                                        Product Image
+                                    </label>
 
+                                    <div {...getRootProps({ className: 'dropzone' })}
+                                         style={{ border: '2px dashed #007bff', padding: '20px', textAlign: 'center', cursor: 'pointer' }}>
+                                        <input {...getInputProps()} />
+                                        <p>Drag & drop an image here, or click to select an image</p>
+                                    </div> */}
 
+                                    {/* Display uploaded image */}
+                                    {/* {uploadedImage && <img src={uploadedImage} alt="Uploaded" style={{ marginTop: '20px', maxWidth: '100%' }} />}
+                                    {errors.image && <div className="text-red-500 text-xs mt-2">{errors.image}</div>}
+                                </div> */}
+
+                                <div>
+                                        <InputLabel value="Service Image" htmlFor="image" />
+                                        <Dropzone
+                                            onDrop={(acceptedFiles) => {
+                                                setData("image", acceptedFiles[0]);
+                                            }}
+                                        >
+                                            {({ getRootProps, getInputProps }) => (
+                                                <section>
+                                                    <div
+                                                        {...getRootProps()}
+                                                        style={{
+                                                            border: "1px solid #d1d5db",
+                                                            borderRadius: "5px",
+                                                            padding: "20px",
+                                                            width: "100%",
+                                                            height: "200px",
+                                                            display: "flex",
+                                                            flexDirection: "column",
+                                                            justifyContent: "center",
+                                                            alignItems: "center",
+                                                        }}
+                                                    >
+                                                        <input {...getInputProps()} />
+                                                        {data.image ? (
+                                                            <div className="w-full h-full flex flex-col justify-center items-center">
+                                                                <img
+                                                                    className="max-h-[150px]"
+                                                                    src={URL.createObjectURL(data.image)}
+                                                                    alt=""
+                                                                />
+                                                            </div>
+                                                        ) : (
+                                                            "Drag and drop an image here or click to select an image"
+                                                        )}
+                                                    </div>
+                                                </section>
+                                            )}
+                                        </Dropzone>
+                                    </div>
 
                                 <button
                                     type="submit"

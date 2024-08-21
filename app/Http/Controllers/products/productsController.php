@@ -48,7 +48,12 @@ class productsController extends Controller
             'price' => 'required|numeric',
             'category_id' => 'required|exists:categories,id',
             'status' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:8192',
         ]);
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('products', 'public');
+            $validated['image'] = $imagePath;
+        }
 
 
 
@@ -62,12 +67,12 @@ class productsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(Product $product)
     {
-        // Fetch the product with its category
-        $product = Product::all();
 
-        // Return the Inertia view with the product data
+        // $product = Product::all();
+
+
         return Inertia::render('products/Show/Index', [
             'product' => $product,
         ]);
@@ -75,9 +80,9 @@ class productsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Product $product)
     {
-        $product = Product::findOrFail($id);
+
         $categories = Category::all();
 
         return Inertia::render('products/Edit/Index', [
@@ -101,6 +106,7 @@ class productsController extends Controller
                 'price' => 'required|numeric',
                 'category_id' => 'required|exists:categories,id',
                 'status' => 'nullable|string',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:8192',
             ]));
 
             return redirect()->route('products.index')->with('success', 'Product updated successfully.');
@@ -112,6 +118,13 @@ class productsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        // Find the category and delete it
+        $products = Product::findOrFail($id);
+        $products->delete();
+
+        // Redirect to the categories index page
+        return redirect()->route('products.index')->with('success', 'product deleted successfully.');
     }
+
+
 }
