@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useForm, usePage } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
+import Dropzone, { useDropzone } from 'react-dropzone';
+import InputLabel from '@/Components/InputLabel';
 
 
 export default function EditProduct() {
@@ -12,13 +14,13 @@ export default function EditProduct() {
         price: product.price || '',
         category_id: product.category_id || '',
         status: product.status || 'draft',
+        image: null as File | null,
     });
 
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
         put(route('products.update', product.id));
     };
-console.log(" ------",categories)
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -75,21 +77,6 @@ console.log(" ------",categories)
                                     {errors.price && <div className="text-red-500 text-xs mt-2">{errors.price}</div>}
                                 </div>
 
-                                {/* <div className="mb-4">
-                                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="category_id">
-                                        Category
-                                    </label>
-                                    <input
-                                        type="number"
-                                        name="category_id"
-                                        value={data.category_id}
-                                        onChange={(e) => setData('category_id', e.target.value)}
-                                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                        placeholder="Category ID"
-                                    />
-                                    {errors.category_id && <div className="text-red-500 text-xs mt-2">{errors.category_id}</div>}
-                                </div> */}
-
                                 { <div className="mb-4">
                                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="category_id">
                                         Category
@@ -123,7 +110,48 @@ console.log(" ------",categories)
                                     </select>
                                     {errors.status && <span className="text-red-600">{errors.status}</span>}
                                 </div>
-                                
+
+                                <div>
+                                        <InputLabel value="Service Image" htmlFor="image" />
+                                        <Dropzone
+                                                onDrop={(acceptedFiles) => {
+                                                    setData("image", acceptedFiles[0]);
+                                                }}
+                                            >
+                                                {({ getRootProps, getInputProps }) => (
+                                                    <section>
+                                                        <div
+                                                            {...getRootProps()}
+                                                            style={{
+                                                                border: "1px solid #d1d5db",
+                                                                borderRadius: "5px",
+                                                                padding: "20px",
+                                                                width: "100%",
+                                                                height: "200px",
+                                                                display: "flex",
+                                                                flexDirection: "column",
+                                                                justifyContent: "center",
+                                                                alignItems: "center",
+                                                            }}
+                                                        >
+                                                            <input {...getInputProps()} />
+                                                            {data.image ? (
+                                                                <div className="w-full h-full flex flex-col justify-center items-center">
+                                                                    <img
+                                                                        className="max-h-[150px]"
+                                                                        src={URL.createObjectURL(data.image)}
+                                                                        alt="Preview"
+                                                                    />
+                                                                </div>
+                                                            ) : (
+                                                                "Drag and drop an image here or click to select an image"
+                                                            )}
+                                                        </div>
+                                                    </section>
+                                                )}
+                                            </Dropzone>
+                                    </div>
+
                                 <div className="flex items-center justify-between">
                                     <button
                                         type="submit"

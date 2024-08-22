@@ -38,7 +38,7 @@ export default function Products({ auth, products }: ProductsProps) {
                                 <h3 className="text-lg font-medium">Product List</h3>
                                 <Link
                                     href={route('products.create')}
-                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                    className="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                                 >
                                     Create Product
                                 </Link>
@@ -75,7 +75,7 @@ export default function Products({ auth, products }: ProductsProps) {
                                                 >
                                                     Edit
                                                 </Link>
-                                                
+
                                                 <Link
                                                     href={route('products.destroy', product.id)}
                                                     className="text-red-600 hover:underline ml-4"

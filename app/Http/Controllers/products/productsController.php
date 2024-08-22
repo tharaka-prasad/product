@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Product;
 use App\Models\Category;
+use Illuminate\Support\Facades\Storage;
 
 class productsController extends Controller
 {
@@ -96,22 +97,46 @@ class productsController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-    {
-        {
-            $product = Product::findOrFail($id);
+{
+    $product = Product::findOrFail($id);
 
-            $product->update($request->validate([
-                'name' => 'required|string|max:255',
-                'description' => 'nullable|string',
-                'price' => 'required|numeric',
-                'category_id' => 'required|exists:categories,id',
-                'status' => 'nullable|string',
-                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:8192',
-            ]));
+    // Debugging: Check if the image is being received
+    // dd($request->all()); // Uncomment this to see what is being received by the controller
 
-            return redirect()->route('products.index')->with('success', 'Product updated successfully.');
+    // Validate the request data
+    $validated = $request->validate([
+        'name' => 'nullable|string|max:255',
+        'description' => 'nullable|string',
+        'price' => 'nullable|numeric',
+        'category_id' => 'nullable|exists:categories,id',
+        'status' => 'nullable|string',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:8192', // Image validation
+    ]);
+
+    // Handle the image upload if a new image is provided
+    if ($request->hasFile('image')) {
+        // Delete the old image if it exists
+        if ($product->image) {
+            Storage::delete('public/' . $product->image);
         }
+
+        // Store the new image and save the path
+        $imagePath = $request->file('image')->store('products', 'public');
+        $validated['image'] = $imagePath;
+    } else {
+        // Keep the existing image if no new image is uploaded
+        $validated['image'] = $product->image;
     }
+
+    // Update the product with validated data
+    $product->update($validated);
+
+    // Debugging: Check if the product is updated correctly
+    // dd($product); // Uncomment this to see the updated product data
+
+    return redirect()->route('products.index')->with('success', 'Product updated successfully.');
+}
+
 
     /**
      * Remove the specified resource from storage.

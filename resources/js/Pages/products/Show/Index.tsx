@@ -17,31 +17,33 @@ export default function Show() {
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900">
-                            <h3 className="text-lg font-medium">Product Name: {product.name}</h3>
-                            <p className="mt-4">Description: {product.description}</p>
-                            <p className="mt-4">Price: {product.price}</p>
-
-                            {/* Handle case where category might not be loaded */}
-                            {product.category ? (
-                                <p className="mt-4">Category: {product.category.name}</p>
-                            ) :
-                            (
-                                <p className="mt-4">Category is available : {product.status}</p>
-                            )}
-                            {product.image && (
+                        {product.image && (
                                 <img
                                     src={`/storage/${product.image}`}
                                     alt={product.name}
-                                    className="mt-4 w-64 h-64 object-cover"
+                                    className="mt-4 w-64 h-64 object-cover mx-auto"
                                 />
-                            )}
 
+                            )}
+                            <h3 className="text-lg font-medium mt-8 flex justify-center">Product Name: {product.name}</h3>
+                            <p className="mt-4 flex justify-center">Description: {product.description}</p>
+                            <p className="mt-4 flex justify-center">Price: {product.price}</p>
+
+
+                            {product.category ? (
+                                <p className="mt-4 flex justify-center">Category: {product.category.name}</p>
+                            ) :
+                            (
+                                <p className="mt-4 flex justify-center">Category Status : {product.status}</p>
+                            )}
+                            <div className="mt-8 flex justify-center">
                             <Link
                                 href={route('products.index')}
                                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                             >
                                 Back to Products
                             </Link>
+                            </div>
                         </div>
                     </div>
                 </div>

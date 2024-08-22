@@ -39,7 +39,7 @@ interface BaseRepositoryInterface
         array $relations = [],
         array $appends = []
     ): ?Model;
-    
+
     /**
      * findByColumn
      *
@@ -58,7 +58,7 @@ interface BaseRepositoryInterface
      * @return Model
      */
     public function findTrashedById(int $modelId): ?Model;
-    
+
 
     /**
      * Find only trashed model by id.
